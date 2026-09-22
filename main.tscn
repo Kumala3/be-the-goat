@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://nww4p8m0qefk"]
+
+[ext_resource type="Script" uid="uid://j2ev2jh4yxih" path="res://main.gd" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://c2we102nawc1w" path="res://player.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://dc4v8cpmgooai" path="res://mob.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://dd61kesqxifm5" path="res://hud.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" path="res://powerup.tscn" id="5_pwr"]
+[ext_resource type="Texture2D" uid="uid://d1s6t1w4qt6vq" path="res://art/background.png" id="6_bg"]
+[ext_resource type="AudioStream" uid="uid://b85s2aoy1yuxa" path="res://art/House In a Forest Loop.ogg" id="7_music"]
+[ext_resource type="AudioStream" uid="uid://be5xruf4sp4ka" path="res://art/gameover.wav" id="8_death"]
+
+[sub_resource type="Curve2D" id="Curve2D_h2yge"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1080, 0, 0, 0, 0, 0, 1080, 720, 0, 0, 0, 0, 0, 720, 0, 0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[node name="Main" type="Node" unique_id=2135105873]
+script = ExtResource("1_0xm2m")
+mob_scene = ExtResource("2_h2yge")
+powerup_scene = ExtResource("5_pwr")
+
+[node name="Background" type="TextureRect" parent="." unique_id=1559114204]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("6_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="StartPosition" type="Marker2D" parent="." unique_id=235840172]
+position = Vector2(540, 360)
+
+[node name="ScoreTimer" type="Timer" parent="." unique_id=321161091]
+
+[node name="MobTimer" type="Timer" parent="." unique_id=1854910951]
+wait_time = 0.5
+
+[node name="StartTimer" type="Timer" parent="." unique_id=1540684178]
+wait_time = 2.0
+one_shot = true
+
+[node name="PowerupTimer" type="Timer" parent="." unique_id=883282659]
+wait_time = 4.0
+
+[node name="SlowTimer" type="Timer" parent="." unique_id=806680077]
+wait_time = 5.0
+one_shot = true
+
+[node name="MobPath" type="Path2D" parent="." unique_id=16555632]
+curve = SubResource("Curve2D_h2yge")
+
+[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath" unique_id=47279664]
+
+[node name="Player" parent="." unique_id=2039949460 instance=ExtResource("1_ig7tw")]
+
+[node name="HUD" parent="." unique_id=635103986 instance=ExtResource("4_1bvp3")]
+
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=1114047469]
+stream = ExtResource("7_music")
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="." unique_id=1275027793]
+stream = ExtResource("8_death")
+
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
+[connection signal="timeout" from="PowerupTimer" to="." method="_on_powerup_timer_timeout"]
+[connection signal="timeout" from="SlowTimer" to="." method="_on_slow_timer_timeout"]
+[connection signal="health_changed" from="Player" to="HUD" method="update_health"]
+[connection signal="hit" from="Player" to="." method="game_over"]
+[connection signal="powerup_picked" from="Player" to="." method="_on_player_powerup_picked"]
+[connection signal="start_game" from="HUD" to="." method="_on_hud_start_game"]

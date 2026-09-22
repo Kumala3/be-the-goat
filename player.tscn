@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://c2we102nawc1w"]
+
+[ext_resource type="Script" uid="uid://blu0q5ggaq357" path="res://player.gd" id="1_3odsw"]
+[ext_resource type="Texture2D" path="res://art/goat_1.png" id="2_goat1"]
+[ext_resource type="Texture2D" path="res://art/goat_2.png" id="3_goat2"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j0axb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_goat1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_goat2")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 8.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_goat"]
+radius = 55.0
+
+[node name="Player" type="Area2D" unique_id=2039949460]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_3odsw")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2010286162]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_j0axb")
+animation = &"walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2102842858]
+shape = SubResource("CircleShape2D_goat")
+
+[node name="ShieldTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="ShrinkTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="HurtTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="ShieldTimer" to="." method="_on_shield_timer_timeout"]
+[connection signal="timeout" from="ShrinkTimer" to="." method="_on_shrink_timer_timeout"]
+[connection signal="timeout" from="HurtTimer" to="." method="_on_hurt_timer_timeout"]

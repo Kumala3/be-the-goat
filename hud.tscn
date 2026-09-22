@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://dd61kesqxifm5"]
+
+[ext_resource type="Script" uid="uid://dliv6oqtreuph" path="res://hud.gd" id="1_64ctp"]
+[ext_resource type="FontFile" uid="uid://b8by8xhbjlx1o" path="res://fonts/Xolonium-Regular.ttf" id="2_8sq4i"]
+
+[node name="HUD" type="CanvasLayer" unique_id=635103986]
+script = ExtResource("1_64ctp")
+
+[node name="ScoreLabel" type="Label" parent="." unique_id=575278822]
+offset_right = 45.0
+offset_bottom = 78.0
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_8sq4i")
+theme_override_font_sizes/font_size = 64
+text = "0"
+
+[node name="Message" type="Label" parent="." unique_id=693985507]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -298.75
+offset_top = -39.0
+offset_right = 298.75
+offset_bottom = 39.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_8sq4i")
+theme_override_font_sizes/font_size = 64
+text = "Be The GOAT"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="MessageTimer" type="Timer" parent="." unique_id=1765162010]
+wait_time = 2.0
+one_shot = true
+
+[node name="StartButton" type="Button" parent="." unique_id=870894460]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -88.5
+offset_top = -86.0
+offset_right = 88.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_8sq4i")
+theme_override_font_sizes/font_size = 64
+text = "Start"
+
+[node name="HealthLabel" type="Label" parent="." unique_id=269783731]
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -216.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 56.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("2_8sq4i")
+theme_override_font_sizes/font_size = 32
+text = "Health: 3"
+horizontal_alignment = 2
+
+[node name="BestLabel" type="Label" parent="." unique_id=353784901]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 16.0
+offset_right = 150.0
+offset_bottom = 56.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_8sq4i")
+theme_override_font_sizes/font_size = 32
+text = "Best: 0"
+horizontal_alignment = 1
+
+[connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]

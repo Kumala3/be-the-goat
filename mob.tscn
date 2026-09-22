@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://dc4v8cpmgooai"]
+
+[ext_resource type="Script" uid="uid://c0iqlwjqk4c8" path="res://mob.gd" id="1_34ns2"]
+[ext_resource type="Texture2D" path="res://art/mosquito_1.png" id="2_mosq1"]
+[ext_resource type="Texture2D" path="res://art/mosquito_2.png" id="3_mosq2"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_efckj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_mosq1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_mosq2")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 12.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mosq"]
+radius = 25.0
+
+[node name="Mob" type="RigidBody2D" unique_id=117834355 groups=["mobs"]]
+rotation = 1.5707964
+collision_mask = 0
+mass = 0.339
+gravity_scale = 0.0
+script = ExtResource("1_34ns2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=932533941]
+texture_filter = 1
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_efckj")
+animation = &"fly"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1329478733]
+shape = SubResource("CircleShape2D_mosq")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1872817667]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
